@@ -1,14 +1,16 @@
 package main
 
 import (
+	"controller"
 	"fmt"
+
+	//"fmt"
 	"io"
 	"net/http"
 )
 
 type Animal interface {
 	Speak() string
-
 
 }
 
@@ -31,11 +33,6 @@ func (dog Dog) Speak() string  {
 	return "I'm Dog"
 }
 
-func Hello( x int, y int )  {
-	sum := x + y
-
-}
-
 
 func Adder() func(int ) int   {
 	var x int
@@ -43,9 +40,6 @@ func Adder() func(int ) int   {
 		x += delete
 		return x
 	}
-
-
-
 }
 
 
@@ -55,24 +49,13 @@ func helloHandle(w http.ResponseWriter, req * http.Request)  {
 
 
 func main()  {
-	//http.HandleFunc("/",helloHandle)
-	//log.Println("启动了")
-	//err := http.ListenAndServe(":9000",nil)
-	//if err != nil {
-	//	log.Fatal("list 9000")
-	//}
+	err, db := controller.OpenDB()
+	if err == false {
+		fmt.Println("open DB error")
+	}else {
+		fmt.Println("open DB Sucess")
+	}
 
-	var stu1 Student
-	stu1.name = "1111"
-	stu1.num = 123
-
-	var stu2 Student
-	stu2.name = "1111"
-	stu2.num = 123
-
-	arr := []Student{stu1,stu2}
-
-	fmt.Println(arr)
-
+	controller.InsertToDB(db)
 
 }
