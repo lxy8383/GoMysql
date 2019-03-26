@@ -3,12 +3,11 @@ package controller
 import (
 	"crypto/md5"
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
 	"encoding/hex"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"strconv"
 	"time"
-
 )
 const shortForm = "2006-01-02 15:04:05"
 
@@ -41,9 +40,10 @@ func GetTime() string {
 	fmt.Println(t)
 	return str
 }
+// 用户名：密码@tcp(本地ip以及mysql端口号)
+//const DB_Driver  =   "user:password@tcp(127.0.0.1:3306)/Database?charset=utf8"
 
-const DB_Driver  =   "user:password@tcp(127.0.0.1:3306)/Database?charset=utf8"
-//const DB_Driver  = "root:meddeex@tcp(127.0.0.1:3306)/medex？charset=utf8"
+const DB_Driver  =   "root:12345678@tcp(127.0.0.1:3306)/helloOne?charset=utf8"
 
 func OpenDB() (sucess bool, db *sql.DB)  {
 
@@ -56,49 +56,58 @@ func OpenDB() (sucess bool, db *sql.DB)  {
 	}
 	//CheckErr(err)
 	return isOpen , db
+
 }
 
 // 插入
 func InsertToDB(db *sql.DB)  {
-	uid := GetNowtimeMD5()
-	nowTimeStr := GetTime()
-	stmt , err := db.Prepare("insert userinfo set username = ? ,departname = ? , created = ? , password=?, uid = ? ")
 
-	res, err := stmt.Exec("wangbiao","研发中心",nowTimeStr,"123456",uid)
-	CheckErr(err)
+
+	stmt , err := db.Prepare("insert Student set id = ? ,name = ? , number = ? , sex =? ")
+
+	res, err := stmt.Exec("3","王龙","123456","男")
+
 	id , err := res.LastInsertId()
-	CheckErr(err)
+
 	if err != nil{
 		fmt.Println("插入数据失败")
 	}else {
 		fmt.Println("插入成功",id)
 	}
+
 }
 
 
 // 查询
 func QueryFromDB(db *sql.DB)  {
-	rows, err := db.Query("select * from userinfo")
-	CheckErr(err)
+	rows, err := db.Query("select * from testDatabase")
+
 	if err != nil {
 		fmt.Println("query Error" , err)
 	}
 
+	//for rows.Next() {
+	//	var uid string
+	//	var username string
+	//	var  departmentname  string
+	//	var created string
+	//	var password string
+	//	var autid string
+	//	err = rows.Scan(&uid, &username, &departmentname, &created, &password, &autid)
+	//	fmt.Println(autid)
+	//	fmt.Println(username)
+	//	fmt.Println(departmentname)
+	//	fmt.Println(created)
+	//	fmt.Println(password)
+	//	fmt.Println(uid)
+	//
+	//}
 	for rows.Next() {
-		var uid string
-		var username string
-		var  departmentname  string
-		var created string
-		var password string
-		var autid string
-		err = rows.Scan(&uid, &username, &departmentname, &created, &password, &autid)
-		fmt.Println(autid)
-		fmt.Println(username)
-		fmt.Println(departmentname)
-		fmt.Println(created)
-		fmt.Println(password)
-		fmt.Println(uid)
-		
+		var id string
+		var name string
+
+		fmt.Println(id)
+		fmt.Println(name)
 	}
 }
 
