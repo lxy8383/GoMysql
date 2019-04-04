@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"Tool"
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
@@ -25,3 +27,26 @@ func WriteNewFile()  {
 	file.WriteString(fileString)
 
 }
+
+
+// 读取文件夹以及文件夹下的所有文件 利用递归方法
+func ListFile(myfolder string)  {
+	files , err := ioutil.ReadDir(myfolder)
+
+	//调用打印
+	Tool.IsError(err,"读取文件")
+
+	for _ , file := range files {
+		if file.IsDir(){
+			ListFile(myfolder + "/" + file.Name())
+		} else {
+			fmt.Println(myfolder + "/" + file.Name())
+		}
+	}
+}
+
+
+
+
+
+

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"sync"
 	"time"
@@ -177,7 +176,6 @@ func main()  {
 	//	fmt.Println(i , v )
 	//}
 
-
 	// *********调试接口
 	//var inter  controller.VideoSourceInter
 	//var vid = controller.Video{"liuxy", "www,baidu.com", "1992", "milin"}
@@ -211,20 +209,19 @@ func main()  {
 	//
 	//wg.Wait()
 
-
-	http.HandleFunc("/",controller.Login)  // 设置访问的路由
-
-	err := http.ListenAndServe(":9090",nil)
-
-	if err != nil {
-		log.Fatal("ListenAndServe " , err)
-	}
+	//上传图片
+	//http.HandleFunc("/",controller.ReceiveFile)  // 设置访问的路由
+	//
+	//err := http.ListenAndServe(":9090",nil)
+	//
+	//if err != nil {
+	//	log.Fatal("ListenAndServe " , err)
+	//}
 
 	///Users/liuxy/Documents
 
 	// 读写文件
 	//controller.WriteNewFile()
-
 
 	//// 反射
 	//var x float64 = 3.4
@@ -248,6 +245,26 @@ func main()  {
 	//
 	//	//fmt.Printf("%d: %s %s = %v\n", i, typeOfT.Field(i).Name, f.Type(), f.Interface())
 	//}
+
+	// 联系interface
+	//var a Reptile.A
+	//Reptile.CallFoo(a)
+	//
+	//var b Reptile.B
+	//Reptile.CallFoo(b)
+
+
+
+	// xorm 数据库
+	// 初始化数据库
+	controller.Init()
+
+	//controller.Insert("王龙1",32)
+	//
+	controller.Del(1)
+
+	//controller.Insert("王龙2",32)
+
 
 
 }
